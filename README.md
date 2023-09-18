@@ -1,6 +1,6 @@
 # Spatial Data Analysis in R
 
 <p align="center">
-	<img title="R" alt="R" src="images/FL.jpg" height="100" />
+	<img title="R" alt="R" src="images/FL.jpg" height="1500" />
 
 </p>
