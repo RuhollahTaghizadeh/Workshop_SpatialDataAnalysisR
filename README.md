@@ -1,1 +1,1 @@
-# Eorkshop_SpatialDataAnalysisR
+# Spatial Data Analysis in R
