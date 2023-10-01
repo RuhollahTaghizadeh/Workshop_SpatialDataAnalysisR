@@ -1,0 +1,229 @@
+---
+title: "Iranian Soil Water Reseacrh Institute: Tidy Data"
+author: "Ruhollah Taghizadeh and Mathias Bellat"
+date: "2023-02-01"
+output:
+  rmdformats::readthedown:
+    highlight: kate
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# What is tidy data?
+
+Tidy data is a concept in the R programming language, popularized by Hadley Wickham, that refers to a specific way of organizing and structuring data to make it easier to work with, analyze, and visualize. Tidy data follows a set of principles that help ensure data is in a consistent and convenient format for data manipulation and analysis. These principles include:
+
+1. Each variable forms a column: In tidy data, each variable (i.e., each data attribute or measurement) is represented as a separate column in a data frame or table.
+
+2. Each observation forms a row: Each row in the data frame represents a unique observation or case.
+
+3. Each type of observational unit forms a table: If you have multiple sets of related data, each set should be organized into its own table or data frame. This helps maintain a clear and meaningful structure for your data.
+
+4. Variable names are informative and easy to understand: Variable names should be descriptive and convey the meaning of the data they represent.
+
+5. Data is organized in long format: Tidy data often represents data in a long format, where multiple measurements are stacked in a single column, and a separate column (e.g., a "variable" column) indicates the type of measurement.
+
+```{r Tidy, echo=FALSE, fig.align ="center", fig.cap="Following three rules makes a dataset tidy: variables are in columns, observations are in rows, and values are in cells.(https://r4ds.had.co.nz/index.html)", out.width = "80%" }
+knitr::include_graphics("_Images/tidy.png",error = FALSE)
+```
+
+# What is tidyverse?
+
+The "tidyverse" is a collection of R packages, including dplyr, tidyr, ggplot2, and others, that provide tools and functions for working with tidy data. These packages make it easier to clean, reshape, and analyze data that follows the tidy data principles.
+
+```{r Tidyverse, echo=FALSE, fig.align ="center", fig.cap="R packages for data science.(https://www.tidyverse.org/)", out.width = "50%" }
+knitr::include_graphics("_Images/tidyverse.png",error = FALSE)
+```
+
+By organizing your data in a tidy format, you can streamline data manipulation and visualization tasks, making your data analysis workflows more efficient and easier to understand. It also facilitates the use of popular data visualization packages like ggplot2, which work seamlessly with tidy data structures.
+
+# How tidyverse works?
+
+Imagine embarking on a data analysis journey, starting with the crucial step of data importing, and then progressing through data cleaning, transformation, visualization, modeling, and ultimately, reporting. The complexity of this can be easy by the tidyverse. This collection of R packages, notably including dplyr, tidyr, and ggplot2, functions as a cohesive toolkit designed to streamline the entire data analysis process. 
+
+```{r Datascience, echo=FALSE, fig.align ="center", fig.cap="The core tidyverse packages to phases of the data science cycle.(https://www.tidyverse.org/)", out.width = "80%" }
+knitr::include_graphics("_Images/datascience.png",error = FALSE)
+```
+
+Here's an explanation of each step:
+
+Data Importing: This is the initial step where you bring data into R from various sources such as CSV files, Excel spreadsheets, databases, or web APIs. The tidyverse includes tools like readr and readxl for efficient data import.
+
+Data Cleaning: After importing, data often needs cleaning and preprocessing. The tidyverse's dplyr package offers functions like filter(), mutate(), and summarize() to clean and manipulate data.
+
+Data Transformation: In this phase, you can reshape, pivot, and aggregate data as needed for analysis. The dplyr and tidyr packages are instrumental in restructuring data into tidy formats.
+
+Data Visualization --> Reporting: Data visualization and reporting are closely linked. You can use the ggplot2 package for creating visualizations and R Markdown for generating reports that combine text, code, and visualizations.
+
+Statistical Modeling: The tidyverse integrates with statistical modeling packages such as lm() (linear models) and glm() (generalized linear models) for statistical analysis. You can use modeling functions for hypothesis testing and predictive modeling.
+
+The tidyverse libraries like ggplot2, dplyr, tidyr, and others seamlessly interact with each other to perform these tasks cohesively. This workflow ensures that data analysis is more efficient, reproducible, and follows best practices in terms of data organization (tidy data principles) and visualization.
+
+Of course, this diagram simplifies the process, and real-world data analysis projects can be more complex, involving iterative cycles of data cleaning, transformation, and modeling. However, this graphic provides an overview of how the tidyverse contributes to the various stages of data analysis, from data import to modeling and reporting.
+
+
+# Main Verbs with LUCAS Data Sets
+
+In this tutorial, we will explore the main verbs in the tidyverse using the LUCAS (Land Use/Cover Area frame Statistical Survey) data sets. LUCAS data provides information about land cover and land use across European countries.
+
+
+```{r}
+# load the library
+library(tidyverse)
+library(readr)
+```
+
+```{r}
+# Loading the LUCAS Data
+data <- read_csv("LUCAS_2018.csv")
+```
+
+```{r}
+# check the data
+glimpse (data) 
+```
+
+The filter() function is used to filter rows based on specific conditions. Let's filter the LUCAS soil data to select only samples from France.
+
+```{r}
+# Filter rows for samples from France
+lucas_soil_france <- data %>% 
+  filter(Country  == "FR")
+
+# Display result
+lucas_soil_france
+```
+
+The select() function allows us to select specific columns from a data frame. Let's select only the relevant columns from the LUCAS topsoil data.
+
+```{r}
+# Select relevant columns
+lucas_topsoil_selected <- data %>% 
+  select(Country, pH, OC, N)
+
+# Display result
+lucas_topsoil_selected
+```
+
+With arrange(), we can sort rows based on one or more columns. Let's sort the LUCAS soil data by soil organic carbon (OC) content in descending order.
+
+```{r}
+# Sort rows by pH in descending order
+lucas_soil_sorted <- data %>%
+  arrange(desc(pH))
+
+# Display result
+lucas_soil_sorted
+```
+
+The mutate() function allows us to create new variables based on existing ones. Let's calculate the C/N in the LUCAS topsoil data.
+
+```{r}
+# Calculate C/N Ratio
+lucas_topsoil_cn <- data %>%
+  mutate(CN = OC / N)
+
+# Display result
+lucas_topsoil_cn
+```
+
+summarize() is used to compute summary statistics from the data. Let's calculate the mean and standard deviation of soil organic carbon (SOC) content for the LUCAS soil data.
+
+```{r}
+# Calculate mean and standard deviation of SOC
+soc_summary <- data %>%
+  summarize(
+    Mean_SOC = mean(OC, na.rm = TRUE),
+    SD_SOC = sd(OC, na.rm = TRUE)
+  )
+
+# Display result
+soc_summary
+```
+
+The group_by() function is used in combination with other verbs to perform operations within groups. Let's group the LUCAS topsoil data by country and calculate the mean SOC for each country.
+
+```{r}
+# Group data by country and calculate mean SOC
+soc_by_country <- data %>%
+  group_by(Country) %>%
+  summarize(Mean_SOC = mean(OC, na.rm = TRUE))
+
+# Display result
+soc_by_country
+```
+
+You can combine multiple main verbs in one chunk to perform a more complex data manipulation. Here's an example that demonstrates how to select specific columns, filter the data based on a condition, group the data by a variable, and then summarize it using the LUCAS data sets:
+
+```{r}
+# The power of combining verbs!
+result <- data %>%
+  select(Country, LandUse, OC, N) %>%  
+  filter(Country %in% c("FR", "DE", "IT")) %>%  
+  group_by(Country, LandUse) %>%  
+  summarize(
+    Mean_SOC = mean(OC, na.rm = TRUE),
+    Mean_N = mean(N, na.rm = TRUE)
+  )  
+
+# Display the result
+result
+```
+
+
+# More examples
+
+```{r}
+# Filter and Select columns
+filtered_selected_data <- data %>%
+  filter(Country %in% c("FR", "DE", "IT")) %>%
+  select(Country, LandUse, OC, N)
+
+# Group, and Count
+counted_data <- filtered_selected_data %>%
+  group_by(Country) %>%
+  count()
+
+# Replace Missing Values with Means
+summarized_NA_data <- filtered_selected_data %>%
+  mutate(
+    OC = replace_na(OC, mean(OC, na.rm = TRUE)),
+    N = replace_na(N, mean(N, na.rm = TRUE))
+  )
+
+# Arrange, Mutate, and Count
+final_data <- summarized_NA_data %>%
+  arrange(desc(OC)) %>%
+  mutate(
+    HighSOC = ifelse(OC > 2.5, "Yes", "No")
+  ) 
+
+# Show the final data
+final_data
+```
+
+You can use the summarize() function from the tidyverse to calculate the minimum, maximum, and mean values of pH for Germany and land use categories. Here's how you can do it:
+
+
+```{r}
+# Filter and Select columns
+filtered_selected_data <- data %>%
+  filter(!is.na(pH), Country %in% c("DE")) %>%
+  select(Country, LandUse, pH)
+
+# Group and Summarize
+ph_summary <- filtered_selected_data %>%
+  group_by(LandUse) %>%
+  summarize(
+    Min_pH = min(pH),
+    Max_pH = max(pH),
+    Mean_pH = mean(pH)
+  )
+
+# Show the summary
+ph_summary
+
+```
+
