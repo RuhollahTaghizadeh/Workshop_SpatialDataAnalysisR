@@ -1,0 +1,609 @@
+---
+title: "Iranian Soil Water Reseacrh Institute: Visualization"
+author: "Ruhollah Taghizadeh"
+date: "2024-01-07"
+output:
+  rmdformats::readthedown:
+    highlight: kate
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction to Data Visualization
+
+Data visualization is essential in the world of data analysis and communication because it enables us to transform complex data into understandable and actionable insights. By presenting data graphically, we can uncover patterns, trends, and relationships that might be hidden in raw numbers or text. Visualizations help decision-makers make informed choices, reveal outliers, and tell compelling stories about the data. Effective data visualization not only simplifies the understanding of data but also enhances the ability to convey information to a broad audience, making it a crucial tool for data-driven decision-making and impactful communication in various fields, from business and science to journalism and public policy.
+
+
+**The primary aims of data visualization are to**:
+
+*Simplify Complexity*: Make complex data more understandable.
+
+*Discover Patterns*: Identify trends, outliers, and correlations.
+
+*Communicate Insights*: Effectively convey information to diverse audiences.
+
+*Support Decision-Making*: Aid in data-driven decision-making.
+
+*Tell a Story*: Create a narrative that engages and informs viewers.
+
+# Data Visualization with R
+R is a popular programming language and environment widely used for data visualization due to its robust ecosystem of libraries and packages. Some of the key tools and packages in R for data visualization include:
+
+*ggplot2*: A versatile and highly customizable package for creating a wide range of static and interactive plots, following the "grammar of graphics" principles.
+
+*base R*: The base R graphics system provides essential functions for creating basic plots, including scatter plots, bar charts, histograms, and more.
+
+*Lattice*: Lattice is another package for creating conditioned plots (trellis graphics) that are useful for exploring multi-dimensional data.
+
+*plotly*: An interactive plotting library that allows you to create interactive web-based visualizations with ease.
+
+*shiny*: A web application framework that enables the creation of interactive dashboards and web-based data visualization applications.
+
+*ggvis*: An interactive visualization package built on the principles of ggplot2, designed for creating web-based, interactive plots.
+
+*gganimate*: An extension of ggplot2 for creating animated plots, which is useful for visualizing changes over time or transitions in data.
+
+*highcharter*: A package for creating interactive and dynamic charts using the Highcharts JavaScript library.
+
+*leaflet*: A package for creating interactive maps and spatial data visualizations.
+
+*dygraphsv*: A package for creating interactive time series plots, suitable for exploring time-based data.
+
+These tools provide data analysts and researchers with a diverse set of options for creating informative and engaging data visualizations in R, catering to various data types and visualization requirements. The choice of tool depends on the specific data and the desired output format, whether it's static charts, interactive web-based visualizations, or dynamic animations.
+
+# Basic Plot Types
+
+There are many different types of plots and charts that can be used to visualize data. The choice of plot type depends on the type of data and the specific insights you want to convey. Here are some of the most common plot types:
+
+*Scatter plots*: Scatter plots are useful for visualizing the relationship between two continuous variables. Each point on the plot represents an observation, and the position of the point represents the values of the two variables. Scatter plots are also useful for identifying outliers and clusters of observations.
+
+*Line charts*: Line charts are useful for visualizing trends and changes over time. Each point on the plot represents an observation at a specific time, and the points are connected by lines to show the trend over time.
+
+*Bar charts*: Bar charts are useful for comparing the values of a categorical variable. Each bar represents a category, and the height of the bar represents the value of the variable for that category.
+
+*Histograms*: Histograms are useful for visualizing the distribution of a continuous variable. The height of each bar represents the number of observations that fall within a specific range of values (i.e., the frequency of observations).
+
+*Box plots*: Box plots are useful for visualizing the distribution of a continuous variable. The box represents the range of values between the first and third quartiles, and the line in the middle of the box represents the median. The whiskers extend to the minimum and maximum values, excluding outliers.
+
+*Heatmaps*: Heatmaps are useful for visualizing the relationship between two categorical variables. Each cell in the plot represents a combination of the two variables, and the color of the cell represents the value of the variable combination.
+
+*Pie charts*: Pie charts are useful for visualizing the relative proportions of a categorical variable. Each slice of the pie represents a category, and the size of the slice represents the proportion of observations in that category.
+
+*Maps*: Maps are useful for visualizing spatial data. Each point on the map represents an observation, and the position of the point represents the location of the observation.
+
+*Network graphs*: Network graphs are useful for visualizing relationships between entities. Each node on the graph represents an entity, and the edges between nodes represent the relationships between entities.
+
+
+```{r Tidyverse2, echo=FALSE, fig.align ="center", fig.cap="A small sample of plots you can make with base R (row 1) and ggplot2 (row 2).(https://r.qcbs.ca/workshop03/book-en/why-use-r.html)", out.width = "85%" }
+knitr::include_graphics("_Images/multiExamplePlot.png",error = FALSE)
+```
+
+# Data Visualization with ggplot2
+
+ggplot2 is a popular R package for data visualization, designed to implement the "grammar of graphics" principles for creating a wide range of plots and charts. The package is based on the book "Grammar of Graphics" by Leland Wilkinson, which describes a system for creating graphs based on the following components:
+
+*Data*: The data to be visualized.
+
+*Aesthetics*: The visual properties of the data, such as color, shape, and size.
+
+*Geometry*: The type of plot to be created, such as a scatter plot, bar chart, or histogram.
+
+*Facets*: The arrangement of multiple plots into a grid, based on a categorical variable.
+
+*Statistics*: The statistical transformations to be applied to the data, such as binning, smoothing, or aggregating.
+
+*Coordinates*: The coordinate system to be used for the plot, such as Cartesian or polar coordinates.
+
+*Themes*: The overall visual appearance of the plot, including the background color, grid lines, and fonts.
+
+
+```{r ggploit, echo=FALSE, fig.align ="center", fig.cap="Image adapted from The Grammar of Graphics.(https://r.qcbs.ca/workshop03/book-en/why-use-r.html)", out.width = "85%" }
+knitr::include_graphics("_Images/gglayers.png",error = FALSE)
+```
+
+
+ggplot2 provides a flexible and powerful system for creating a wide range of plots, following the grammar of graphics principles. The package is built on top of the ggproto object-oriented programming system, which provides a flexible framework for creating and customizing plots. The ggplot2 package also provides a wide range of themes and scales for customizing the appearance of plots.
+
+# The Basic Steps for Creating a Plot with ggplot2
+
+1. Load the ggplot2 package into your R session.
+
+2. Create a data frame containing the data to be visualized.
+
+3. Use the ggplot() function to create a plot object.
+
+4. Specify the data frame to be used for the plot using the data argument.
+
+5. Specify the variables to be used for the plot using the aes() function.
+
+6. Specify the type of plot to be created using a geom_ function.
+
+7. (Optional) Specify the statistical transformation to be applied to the data using a stat_ function.
+
+8. (Optional) Specify the coordinate system to be used for the plot using a coord_ function.
+
+9. (Optional) Specify the visual appearance of the plot using a theme_ function.
+
+10. (Optional) Add additional layers to the plot using additional geom_ functions.
+
+11. (Optional) Add annotations to the plot using the annotate() function.
+
+12. (Optional) Add a legend to the plot using the labs() function.
+
+13. (Optional) Save the plot to a file using the ggsave() function.
+
+14. (Optional) Display the plot using the print() function.
+
+
+
+```{r overview, echo=FALSE, fig.align ="center", fig.cap="Overview of Images by  ggplot2.(https://www.cedricscherer.com/2019/08/05/a-ggplot2-tutorial-for-beautiful-plotting-in-r/)", out.width = "85%" }
+knitr::include_graphics("_Images/overview.png",error = FALSE)
+```
+
+
+# Three Main Steps to create a Plot with ggplot2 and LUCAS Data
+
+In this tutorial, we will explore the main steps in the ggplot2 using the LUCAS (Land Use/Cover Area frame Statistical Survey) data sets. LUCAS data provides information about land cover and land use across European countries.
+
+**Step 1**: Load the necessary libraries and the dataset
+
+
+```{r, warning = FALSE, message = FALSE}
+# Load the necessary libraries for this tutorial
+library(tidyverse)
+library(ggplot2)
+library(readr)
+library(dplyr)
+library(plotly)
+library(trelliscopejs)
+library(ggstatsplot)
+library(ggpubr)
+library(ggthemes)
+library(patchwork)
+```
+
+```{r, warning = FALSE, message = FALSE}
+# Loading the LUCAS Data
+data <- read_csv("LUCAS_2018.csv")
+data <- data %>% 
+  filter(LandUse == "Cropland" | LandUse == "Grassland")
+nrow(data)
+```
+
+```{r, warning = FALSE, message = FALSE}
+# check the data
+head (data) 
+```
+
+
+**Step 2**: Start with a Blank Plot and Add Data (Data and Aesthetics)
+
+
+```{r, warning = FALSE, message = FALSE}
+# Create a blank plot
+p <- ggplot(data)
+p
+```
+
+```{r, warning = FALSE, message = FALSE}
+# Add the data and aesthetics (Mapping data to aesthetics)
+p <- p + aes(x = OC, y = N)
+p
+```
+
+**Step 3**: Add a Geometry Layer (Geometry)
+
+```{r, warning = FALSE, message = FALSE}
+# Add a geometry layer
+p <- p + geom_point()
+p
+```
+
+Each geom function serves a specific purpose in creating different types of plots and visualizations in ggplot2, allowing you to choose the most suitable one for your data and analysis.
+List different types of geometries that can be used in ggplot2:
+
+**geom_point**: Used for scatter plots, it displays individual points on the plot.
+
+**geom_line**: Connects points with lines, typically used for line charts to show trends.
+
+**geom_bar**: Creates bar charts to represent categorical data by displaying bars for each category.
+
+**geom_histogram**: Constructs histograms to visualize the distribution of continuous data.
+
+**geom_boxplot**: Generates box plots that display the distribution of data, including median, quartiles, and outliers.
+
+**geom_smooth**: Adds a smoothed line (e.g., a loess curve or linear regression) to the plot to show trends.
+
+**geom_density**: Produces density plots, illustrating the distribution of data in a smoothed manner.
+
+**geom_violin**: Creates violin plots that combine box plots with density plots to represent data distribution.
+
+**geom_area**: Fills the area under a curve or line, commonly used for stacked area charts.
+
+**geom_tile**: Displays a grid of rectangles, often used for heatmaps or pixel plots.
+
+**geom_polygon**: Constructs polygons to create custom shapes or geographic maps.
+
+**geom_path**: Connects points with lines but doesn't close the path, useful for drawing open paths.
+
+**geom_ribbon**: Adds a ribbon between two lines or curves, often used for confidence intervals.
+
+**geom_jitter**: Adds a small amount of random noise to the data points to prevent overlap in scatter plots.
+
+**geom_raster**: Displays a raster image as a plot layer.
+
+**geom_segment**: Draws line segments between two specified points.
+
+**geom_text**: Adds text labels to the plot.
+
+**geom_label**: Similar to geom_text, but labels are drawn inside boxes.
+
+**geom_rect**: Draws rectangles on the plot, useful for highlighting specific regions.
+
+**geom_abline**: Adds an abline (a straight line) to the plot with specified intercept and slope.
+
+**geom_errorbar**: Adds vertical or horizontal error bars to represent uncertainty.
+
+**geom_crossbar**: Combines a horizontal and vertical line to create a crossbar for representing data intervals.
+
+**geom_pointrange**: Displays a point with a vertical line, commonly used for showing intervals.
+
+**geom_linerange**: Represents intervals as horizontal lines.
+
+**geom_hline**: Adds horizontal lines to the plot at specified y-values.
+
+**geom_vline**: Similar to geom_hline, but adds vertical lines at specified x-values.
+
+**geom_quantile**: Draws quantile regression lines to represent various quantiles of the data distribution.
+
+  
+
+## Create a Scatter Plot
+
+```{r, warning = FALSE, message = FALSE}
+# Create a scatter plot
+p <- ggplot(data, aes(x = OC, y = N))+
+  geom_point() +
+  labs(x = "Soil Organic Carbon",
+       y = "Soil Nitrogen",
+       title = "Scatter Plot of SOC vs. N")
+p
+```
+
+## Create a Line Plot
+
+```{r, warning = FALSE, message = FALSE}
+# Create a line plot of N over OC
+p <- ggplot(data = data, aes(x = OC, y = N)) +
+  geom_smooth(method = "lm") +
+  labs(title = "Line Plot of N over OC",
+       x = "SOC",
+       y = "N")
+p
+```
+
+## Create a Scatter and Line Plot
+
+```{r, warning = FALSE, message = FALSE}
+# Create a line plot of N over OC
+p <- ggplot(data = data, aes(x = OC, y = N)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "Line Plot of N over OC",
+       x = "SOC",
+       y = "N")
+p
+```
+
+## Create a Bar Chart
+
+```{r, warning = FALSE, message = FALSE}
+# Create a bar chart of LandUse
+p <- ggplot(data = data, aes(x = LandUse)) +
+  geom_bar() +
+  labs(title = "Bar Chart of Land Use",
+       x = "Land Use",
+       y = "Count")
+p
+```
+
+
+## Create a Box Plot
+
+```{r, warning = FALSE, message = FALSE}
+# Create a box plot of N levels by LandUse
+p <- ggplot(data = data, aes(x = LandUse, y = N)) +
+  geom_boxplot() +
+  labs(title = "Box Plot of N Levels by Land Use",
+       x = "Land Use",
+       y = "N Levels")
+p
+```
+
+## Create a Histogram
+
+```{r, warning = FALSE, message = FALSE}
+# Create a histogram of N
+p <- ggplot(data = data, aes(x = N)) +
+  geom_histogram() +
+  labs(title = "Histogram of N",
+       x = "N",
+       y = "Count")
+p
+```
+
+
+## Create a Density Plot
+
+```{r, warning = FALSE, message = FALSE}
+# Create a density plot of N
+p <- ggplot(data = data, aes(x = N)) +
+  geom_density() +
+  labs(title = "Density Plot of N",
+       x = "N",
+       y = "Density")
+p
+```
+
+
+## Create a Violin Plot
+
+```{r, warning = FALSE, message = FALSE}
+# Create a violin plot of OC by LandUse
+p <- ggplot(data = data, aes(x = LandUse, y = OC)) +
+  geom_violin() +
+  labs(title = "Violin Plot of OC by Land Use",
+       x = "Land Use",
+       y = "OC")
+p
+```
+
+## Create a Faceted Scatter Plot
+
+```{r, warning = FALSE, message = FALSE}
+# Create a stacked area chart of LandUse
+p <- ggplot(data = data, aes(x = OC, y = N)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  facet_wrap(~LandUse) +
+  labs(title = "Faceted Scatter Plot of OC vs. N by LandUse",
+       x = "OC",
+       y = "N")
+p
+```
+
+
+# Create Interactive Plots: Enhancing Data Exploration and Engagement
+
+Interactive plots go beyond static visualizations by allowing users to interact with the data dynamically. They enable real-time exploration, providing a richer and more engaging experience for data analysis and presentation. Users can zoom in on specific data points, hover for tooltips, filter data categories, and even pan across large datasets, unlocking hidden insights and facilitating a deeper understanding of the data. Interactive plots are particularly valuable when sharing data with diverse audiences, as they empower users to explore and discover patterns, trends, and outliers at their own pace, making data communication and analysis more effective and enjoyable.
+
+
+```{r, warning = FALSE, message = FALSE}
+# Create a scatter plot
+p <- ggplot(data, aes(x = OC, y = N))+
+  geom_point() +
+  geom_smooth(method = "lm", se=T) +
+  labs(x = "Soil Organic Carbon",
+       y = "Soil Nitrogen",
+       title = "Scatter Plot of SOC vs. N")
+plotly::ggplotly(p)
+```
+
+
+## Create a Box Plot
+
+```{r, warning = FALSE, message = FALSE}
+data %>%
+  plotly::plot_ly(x = ~LandUse, y = ~OC) %>%
+  add_boxplot()
+```
+
+
+## Create a Scatter Plot by Coloring
+
+```{r, warning = FALSE, message = FALSE}
+data %>%
+  plotly::plot_ly(x = ~OC, y = ~N, color = ~LandUse) %>%
+  add_markers(colors=c("red","blue"))
+```
+
+## Create Two Scatter Plots
+
+```{r, warning = FALSE, message = FALSE}
+# Create a scatterplot of OC against N for Cropland
+p1 <- data %>%
+   filter(LandUse == "Cropland") %>%
+   plot_ly(x = ~OC, y = ~N) %>% 
+   add_markers(name = "Cropland")
+
+# Create a scatterplot of OC against N for Grassland
+p2 <- data %>%
+   filter(LandUse == "Grassland") %>%
+   plot_ly(x = ~OC, y = ~N) %>% 
+   add_markers(name = "Grassland")
+
+
+# Create a facted scatterplot containing p1 and p2
+subplot(p1, p2, nrows = 2, shareX = TRUE, shareY = TRUE)
+```
+
+
+## Create an Animated Plot
+
+```{r, warning = FALSE, message = FALSE}
+# Create an animated bubble chart 
+p <- data %>%
+  plot_ly(x = ~OC, y = ~N) %>%
+  add_markers(frame = ~Country, 
+              color = ~LandUse,
+              colors=c("red","blue")) %>%
+  animation_opts(frame = 500) 
+p  
+```
+
+
+## Create Interactive Plots for Big Data
+
+```{r, warning = FALSE, message = FALSE,eval = FALSE}
+# Create an interactive scatter plot
+p <- ggplot(data = data, aes(x = OC, y = N)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  facet_trelliscope(~Country, as_plotly = TRUE, nrow = 5, ncol = 5) 
+p
+```
+
+
+# Create Beutiul Plots: Enhancing Data Communication and Presentation
+
+Beautiful plots are not only visually appealing, but also effectively communicate the data story. They are easy to read and understand, and convey the key messages in a clear and concise manner. Beautiful plots are also engaging and memorable, and can be used to tell a compelling data story that resonates with the audience.
+
+
+## Create a Scatter Plot with different Themes
+
+```{r, warning = FALSE, message = FALSE}
+# Create a scatter plot of OC against N
+p <- ggplot(data = data, aes(x = OC, y = N)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "Scatter Plot of OC vs. N",
+       x = "OC",
+       y = "N")
+p
+# Beautify the plot
+p + theme_minimal()
+p + theme_classic()
+p + theme_bw()
+p + theme_dark()
+p + theme_light()
+p + theme_gray()
+```
+
+
+## Create a Scatter Plot with ggpubr
+
+```{r, warning = FALSE, message = FALSE}
+# Create a scatter plot of OC against N
+p <- ggplot(data = data, aes(x = OC, y = N)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "Scatter Plot of OC vs. N",
+       x = "OC",
+       y = "N")
+# Beautify the plot
+p + ggpubr::theme_pubr()
+
+```
+
+
+## Create a Scatter Plots Using ggthemes
+
+```{r, warning = FALSE, message = FALSE}
+# Create a scatter plot of OC against N
+
+p <- ggplot(data = data, aes(x = OC, y = N)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "Scatter Plot of OC vs. N",
+       x = "OC",
+       y = "N")
+# Beautify the plot
+p + ggthemes::theme_economist()
+p + ggthemes::theme_fivethirtyeight()
+p + ggthemes::theme_hc()
+p + ggthemes::theme_tufte()
+p + ggthemes::theme_wsj()
+
+```
+
+
+## Create a Scatter Plots with Statistic Labels
+
+```{r, warning = FALSE, message = FALSE}
+# Create a scatter plot of OC against N
+p <- ggplot(data = data, aes(x = OC, y = N)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "Scatter Plot of OC vs. N",
+       x = "OC",
+       y = "N")
+# Beautify the plot
+p + ggpubr::theme_pubr() +
+  ggpubr::stat_regline_equation(label.x = 2, label.y = 100)
+
+```
+
+
+## Create a Box Plots with Statistic Labels
+
+```{r, warning = FALSE, message = FALSE}
+# Create a  Box plot of OC against Land Uses
+ggbetweenstats(
+  data  = data,
+  x     = LandUse,
+  y     = OC,
+  title = "Distribution of OC across Land Uses"
+)
+```
+
+
+## Create Multiple Plots Using Patchwork
+
+```{r, warning = FALSE, message = FALSE}
+# Create a scatter plot of OC against N
+p1 <- ggplot(data = data, aes(x = OC, y = N)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "Scatter Plot of OC vs. N",
+       x = "OC",
+       y = "N")
+
+# Create a  Box plot of OC against Land Uses
+p2 <- ggplot(data = data, aes(x = LandUse, y = OC)) +
+  geom_boxplot() +
+  labs(title = "Box Plot of OC vs. Land Uses",
+       x = "Land Uses",
+       y = "OC")
+
+# Create a  Box plot of N against Land Uses
+p3 <- ggplot(data = data, aes(x = LandUse, y = N)) +
+  geom_boxplot() +
+  labs(title = "Box Plot of N vs. Land Uses",
+       x = "Land Uses",
+       y = "N")
+
+# Create a  Histogram of OC
+p4 <- ggplot(data = data, aes(x = OC)) +
+  geom_histogram() +
+  labs(title = "Histogram Plot of OC", x = "OC")
+
+# Using patchwork to combine the plots
+p1 + p2 + p3 + p4 + plot_layout(ncol = 2)
+
+```
+
+# Export Plots
+
+In data analysis and visualization workflows, creating plots and visualizations is a crucial step. However, after creating these plots, you may want to save them in various formats for further use or to include them in reports, presentations, or publications. This is where exporting plots comes into play.
+
+## Export Plots to PDF
+
+```{r, warning = FALSE, message = FALSE,eval = FALSE}
+# Create a scatter plot of OC against N
+p <- ggplot(data = data, aes(x = OC, y = N)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(title = "Scatter Plot of OC vs. N",
+       x = "OC",
+       y = "N")
+
+# Export the plot to PDF
+ggsave("scatter_plot.pdf", p, 
+       width = 10, 
+       height = 8, 
+       units = "cm", 
+       dpi = 300)
+
+```
