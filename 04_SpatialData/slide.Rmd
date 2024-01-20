@@ -1,0 +1,483 @@
+---
+title: "Iranian Soil Water Reseacrh Institute: Spatial Data Analysis"
+Author: "Ruhollah Taghizadeh"
+output: ioslides_presentation
+date: "2024-01-19"
+---
+
+```{css, echo=FALSE}
+.split-view {
+    display: flex;
+}
+.split-view .left-pane {
+    width: 50%;
+    padding-right: 10px;
+    box-sizing: border-box;
+}
+.split-view .right-pane {
+    width: 50%;
+}
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Outline
+
+- Introduction to Spatial Data Analysis
+- Exploring Key R Packages for Spatial Data
+- Hands-on Exercises with Real-world Data
+- Q&A and Interactive Discussions
+
+## Why Spatial Data Analysis Matters?
+
+- Growing demand in various sectors: Environmental science, Urban planning, Logistics, etc.
+- Key to informed decision-making through geospatial insights
+- Enhances data visualization and interpretation
+
+```{r , echo=FALSE, fig.align ="center", fig.cap="", out.width = "30%" }
+knitr::include_graphics("_Images/geospatial-layers.jpg",error = FALSE)
+```
+
+## R - A Powerful Tool for Data Analysis
+
+- Open-source programming language
+- Extensive libraries for statistical analysis and data visualization
+- Strong community support
+
+```{r , echo=FALSE, fig.align ="center", fig.cap="", out.width = "30%" }
+knitr::include_graphics("_Images/RR.png",error = FALSE)
+```
+
+## R's Role in Spatial Data Analysis
+
+- Ideal for handling and analyzing complex spatial datasets
+- Diverse range of packages specifically for spatial analysis (e.g., 'sp', sf, raster)
+- Ability to integrate with other tools and languages (e.g., GIS software, Python)
+
+
+```{r , echo=FALSE, fig.align ="center", fig.cap="", out.width = "60%" }
+knitr::include_graphics("_Images/flow.png",error = FALSE)
+```
+
+## Spatial Data in Agriculture
+
+- Agriculture is a key sector for spatial data analysis
+  - Identify suitable areas for crop production
+  - Monitor crop health and yield
+  - Predict crop yield
+  - And much more!
+
+```{r , echo=FALSE, fig.align ="center", fig.cap="", out.width = "40%" }
+knitr::include_graphics("_Images/agri.png",error = FALSE)
+```
+
+
+
+## Getting Started with Spatial Data
+
+- Now that we understand the basics, let's dive into the world of spatial data and see how R helps us navigate it.
+
+```{r , echo=FALSE, fig.align ="center", fig.cap="", out.width = "55%" }
+knitr::include_graphics("_Images/road.png",error = FALSE)
+```
+
+
+## Key R Packages for Spatial Data
+
+- **sp**: The foundation for spatial data analysis in R
+- **sf**: The next generation of spatial data analysis in R
+- **raster**: For working with raster data
+- **rgdal**: For reading and writing spatial data
+- **rgeos**: For spatial operations
+- **maptools**: For reading and writing spatial data
+- **ggplot2**: For data visualization
+- **tmap**: For interactive data visualization
+- **leaflet**: For interactive data visualization
+
+## Types of Spatial Data
+
+- **Vector data**: Points, lines, polygons
+- **Raster data**: Grids of cells
+
+
+```{r , echo=FALSE, fig.align ="center", fig.cap="", out.width = "50%" }
+knitr::include_graphics("_Images/image3.png",error = FALSE)
+```
+
+
+## Points, Lines, and Polygons
+
+- **Points**: Represented by a single coordinate pair (e.g., latitude and longitude)
+- **Lines**: Represented by a series of coordinate pairs
+- **Polygons**: Represented by a series of coordinate pairs that form a closed shape
+
+```{r , echo=FALSE, fig.align ="center", fig.cap="", out.width = "40%" }
+knitr::include_graphics("_Images/sample.png",error = FALSE)
+```
+
+
+## Raster Data
+
+- **Raster data**: Grids of cells
+- Each cell has a value
+- Each cell has a coordinate pair (e.g., latitude and longitude)
+
+```{r , echo=FALSE, fig.align ="center", fig.cap="", out.width = "40%" }
+knitr::include_graphics("_Images/rs.png",error = FALSE)
+```
+
+## Coordinate Reference Systems (CRS) 
+
+- **Coordinate reference system (CRS)**: A system that uses coordinates to represent locations on the Earth's surface
+- **Geographic CRS**: Uses latitude and longitude to represent locations on the Earth's surface
+- **Projected CRS**: Uses x and y coordinates to represent locations on the Earth's surface
+
+
+## Spatial Data Formats
+
+- **Shapefile**: A common vector data format
+- **GeoTIFF**: A common raster data format
+- **GeoJSON**: A common vector data format
+- **KML**: A common vector data format
+
+
+## Practice
+
+- Let's practice working with spatial data in R!
+
+## Data Sources
+
+- **Vector data**: [Natural Earth](https://www.naturalearthdata.com/)
+- **Raster data**: [NASA Earth Observations (NEO)](https://neo.sci.gsfc.nasa.gov/)
+- **Raster data**: [WorldClim](https://www.worldclim.org/)
+- **Raster data**: [USGS EarthExplorer](https://earthexplorer.usgs.gov/)
+- **Raster data**: [USDA CropScape](https://nassgeodata.gmu.edu/CropScape/)
+- **Raster data**: [USDA Geospatial Data Gateway](https://gdg.sc.egov.usda.gov/)
+
+
+## Dataset for Today's Workshop
+
+**Datasets**
+
+- Download Dataset [**HERE**](https://github.com/RuhollahTaghizadeh/ExamGeo772022)
+
+- In the [**FILE**](https://github.com/RuhollahTaghizadeh/ExamGeo772022), there are three sub-folders: Covariates, GIS, and Soil. 
+
+* Covariates: There are 17 covariates with the format of [**Raster**](https://www.neonscience.org/resources/learning-hub/tutorials/raster-data-r) which are derived from digital elevation model [**DEM**](https://www.usgs.gov/centers/eros/science/usgs-eros-archive-digital-elevation-shuttle-radar-topography-mission-srtm-1),  [**Landsat-8**](https://www.usgs.gov/faqs/what-are-band-designations-landsat-satellites), and climatic parameters of temprature and rainfall from [**WorldClim**](https://www.worldclim.org/data/index.html). 
+
+* GIS: There are two files with the format of [**shapefile**](https://r-graph-gallery.com/168-load-a-shape-file-into-r.html) which are boundary of regions and point locations. The datasets are obtained from [**LUCAS**](https://esdac.jrc.ec.europa.eu/projects/lucas). 
+
+## Dataset for Today's Workshop...
+
+* Soil: In this folder you can find file with the format of [**csv**](https://swcarpentry.github.io/r-novice-inflammation/11-supp-read-write-csv/) which contain the soil information of clay content (Clay),  soil organic carbon (SOC), soil acidity (pH), and cation exchange capacity (CEC). The first two columns are coordinate locations x=longitude and y=latitude.
+
+**Remark**
+
+* It is better to work with _soil.csv_ file instead of _points.shp_ because the csv does have only the information you need.
+
+* EPSG of the region is c("+init=epsg:4326")
+
+* For visualization, try to use _ggplot2_ package
+
+* For machine learning part, try to use _caret_ package
+
+## Importing and Exploring Data
+
+- Let's import and explore the data!
+
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+```{r, eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE}
+df <- read_csv("Germany/Soil/soil.csv")
+rmarkdown::paged_table(df)
+```
+
+## Importing and Exploring Data...
+
+```{r, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
+df <- read_csv("Germany/Soil/soil.csv")
+rmarkdown::paged_table(df)
+```
+
+## Visualization of Data
+
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+p=df %>% ggplot()
+p
+``` 
+  
+## Visualization of Data...
+
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+p = p + aes(x=Clay, y=CEC) 
+p
+``` 
+
+## Visualization of Data...
+
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+p = p + geom_point() 
+p
+``` 
+
+## Visualization of Data...
+
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+p = p + geom_smooth(method = "lm", se = FALSE)
+p
+``` 
+
+## Visualization of Data...
+
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+plotly::ggplotly(p)
+``` 
+
+## Importing Spatial Data
+
+Load the necessary packages:
+
+
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+library(sp)
+library(raster)
+library(sf)
+```
+
+Import the shapefile:
+
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+points <- st_read(dsn = "Germany/GIS/points.shp", layer = "points")
+```
+
+
+## Basic Visualization with Point Data
+
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+plot(points["clay"])
+```
+
+## Visualization with GGPLOT
+
+<div class="split-view">
+  <div class="left-pane">
+
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+p=ggplot(data = points) +
+  geom_sf(aes(color = clay)) +  
+  theme_minimal() +
+  labs(title = "Point Data",
+       color = "Clay") 
+```
+ </div>
+  <div class="right-pane">
+```{r, eval=TRUE, echo=F, message=FALSE, warning=FALSE, fig.width=5, fig.height=5}
+p 
+```
+ </div>
+</div>
+
+## Visualization with mapview
+
+<div class="split-view">
+  <div class="left-pane">
+  
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, fig.width=4, fig.height=4}
+library(mapview)
+p=points %>% filter(clay > 10) %>%
+  mapview(zcol = "clay")
+```
+
+ </div>
+  <div class="right-pane">
+```{r, eval=TRUE, echo=F, message=FALSE, warning=FALSE, fig.width=4.5, fig.height=5}
+p
+```
+ </div>
+</div>
+
+
+## Basic GIS Operations
+
+- Intersect: The output features will be those that overlap with the input features.
+- Union: The output features will be those that overlap with the input features.
+- Difference: The output features will be those that overlap with the input features.
+- Buffer: The output features will be those that overlap with the input features.
+- Clip: The output features will be those that overlap with the input features.
+- Merge: The output features will be those that overlap with the input features.
+- Dissolve: The output features will be those that overlap with the input features.
+- Spatial Join: The output features will be those that overlap with the input features.
+
+## Basic GIS Operations...
+
+```{r, eval=F, echo=TRUE, message=FALSE, warning=FALSE}
+regions <- st_read(dsn = "Germany/GIS/boundary.shp", layer = "boundary")
+```
+
+```{r, eval=TRUE, echo=F, message=FALSE, warning=FALSE}
+regions <- st_read(dsn = "Germany/GIS/boundary.shp", layer = "boundary")
+```
+
+## Basic GIS Operations...
+
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+ggplot() +
+  geom_sf(data = regions)
+```
+
+## Basic GIS Operations...
+
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+Intersect <- st_intersection(points, regions)
+Union <- st_union(points, regions)
+Difference <- st_difference(points, regions)
+Buffer <- st_buffer(points, 10000)
+```
+
+
+## What is Raster Data?
+
+- Raster data is made up of pixels (or cells), and each pixel has an associated value.
+- Raster data is commonly used to store imagery, DEMs, and other spatially continuous data.
+- Raster data is often used to represent terrain, elevation, and land cover.
+
+## Working with Raster Data in R
+
+- Raster data can be imported into R using the raster package.
+- The raster package provides a number of functions for importing raster data into R.
+- The terra package is a newer package for working with raster data in R.
+
+## Importing Raster Data
+
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+library(raster)
+r <- raster("Germany/Covariates/Elevation.tif")
+class(r)
+```
+
+
+## Basic Vizualizing Raster Data
+
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+plot(r, col = terrain.colors(10), legend = FALSE)
+```
+
+## Vizualizing Raster Data using ggplot
+<div class="split-view">
+  <div class="left-pane">
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+r_df <- as.data.frame(r, xy = TRUE)
+p=ggplot() +
+  geom_raster(data = r_df, 
+              aes(x = x, y = y, 
+                  fill = layer)) +
+  coord_equal()
+```
+ </div>
+  <div class="right-pane">
+```{r, eval=TRUE, echo=F, message=FALSE, warning=FALSE, fig.width=5, fig.height=6}
+p
+```
+ </div>
+</div>
+
+
+## Vizualization of Raster Data using mapview
+<div class="split-view">
+  <div class="left-pane">
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+p=mapview(r, 
+        col.regions = terrain.colors(10))
+```
+ </div>
+  <div class="right-pane">
+```{r, eval=TRUE, echo=F, message=FALSE, warning=FALSE, fig.width=4, fig.height=4}
+p
+```
+ </div>
+</div>  
+
+
+## Vizualization of Raster Data using leaflet
+
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+library(leaflet)
+leaflet() %>%
+  addTiles() %>%
+  addRasterImage(r, 
+                 colors = terrain.colors(10))
+
+```
+
+
+## Raster Data Calculations: Stack
+
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+r <- raster("Germany/Covariates/Elevation.tif")
+r2 <- raster("Germany/Covariates/Slope.tif")
+r3 <- raster("Germany/Covariates/Aspect.tif")
+
+s <- stack(r, r2, r3)
+```
+
+
+## Raster Data Calculations: NDVI
+
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+nir <- raster("Germany/Covariates/NIR.tif")
+red <- raster("Germany/Covariates/Red.tif")
+
+ndvi <- (nir - red) / (nir + red)
+
+s <- stack(nir, red, ndvi)
+names(s) <- c("nir", "red", "ndvi")
+names(s)
+
+```
+
+
+## Overlaying Points on Raster Data
+
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+plot(s$ndvi, main = "ndvi")
+plot(points, add =T,pch = 10, cex = 0.2, col = "black")
+``` 
+  
+
+## Extracting Raster Values
+
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+cov = extract(s,points,method='bilinear', df=TRUE)
+rmarkdown::paged_table(cov[-1])
+```
+
+## Combining Raster and Vector Values
+
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+df_model = cbind(cov[-1], clay=points$clay)
+rmarkdown::paged_table(df_model)
+```
+
+
+## Correlation Matrix
+
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+corrplot::corrplot(cor(df_model), method = "circle")
+
+```
+
+
+## Ready for Machine Learning
+
+- We have now prepared our data for machine learning.
+- We have extracted the covariates and the response variable.
+- We have also checked for multicollinearity.
+- We are now ready to train our machine learning model.
+
+```{r , echo=FALSE, fig.align ="center", fig.cap="", out.width = "50%" }
+knitr::include_graphics("_Images/R.png",error = FALSE)
+```
